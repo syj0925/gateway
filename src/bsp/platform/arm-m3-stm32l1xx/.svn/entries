@@ -1,0 +1,34 @@
+10
+
+dir
+1907
+https://192.168.16.29:8888/svn/sems/release/test_140601/crossfire/bsp/platform/arm-m3-stm32l1xx
+https://192.168.16.29:8888/svn/sems
+
+
+
+2014-02-14T05:48:11.923545Z
+1464
+hcd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+518730aa-f4b4-a249-9b6e-ab5a4dbc0f4a
+
+STM32L1xx_StdPeriph_Driver
+dir
+
+CMSIS
+dir
+

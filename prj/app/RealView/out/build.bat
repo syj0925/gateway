@@ -1,0 +1,1 @@
+..\HEX2BIN.EXE enddevice.hex 

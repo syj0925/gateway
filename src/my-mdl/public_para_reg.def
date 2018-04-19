@@ -1,0 +1,77 @@
+/********************************************************************************
+**
+** 文件名:     public_para_reg.def
+** 版权所有:   (c) 2013-2015 
+** 文件描述:   实现公共参数文件存储驱动注册信息表管理
+**
+*********************************************************************************
+**             修改历史记录
+**===============================================================================
+**|    日期    |  作者  |  修改记录
+**===============================================================================
+**| 2015/08/26 | 苏友江 |  创建该文件
+********************************************************************************/
+
+
+/*
+-------------------------------类注册信息--------------------------------------
+    BEGIN_PP_DEF(_PP_TYPE_, _DLY_, _DESC_)
+    _PP_TYPE_:   pp参数区类型
+    _DLY_:       延时存储时间，非必要不能改
+    _DESC_：     参数区描述符
+---------------------------------------------------------------------------------
+*/
+
+/*
+-------------------------------注册信息--------------------------------------
+    PP_DEF(_PP_TYPE_, _PP_ID_, _LEN_, _BAK_, _I_PTR_)
+    _PP_TYPE_:     pp参数区类型
+    _PP_ID_:       PP参数统一编号
+    _LEN_:         参数长度
+    _BAK_：        备份属性
+    _I_PTR_：      默认参数
+---------------------------------------------------------------------------------
+*/
+
+
+/***********************************************************
+ 参数1区：不经常改动，重要参数注册到该区 
+ ***********************************************************/
+BEGIN_PP_DEF(PP_TYPE_CRITICAL, 2, "ppcri")
+    PP_DEF(PP_TYPE_CRITICAL, UID_,            sizeof(INT32U),          PP_NBK,     &c_uid)
+    
+#if EN_ETHERNET > 0    
+    PP_DEF(PP_TYPE_CRITICAL, IP_PARA_,        sizeof(Ip_para_t),       PP_NBK,     &c_ip_para)
+#endif
+
+#if EN_WIFI > 0    
+    PP_DEF(PP_TYPE_CRITICAL, WIFI_PARA_,      sizeof(Wifi_para_t),     PP_NBK,     &c_wifi_para)
+#endif
+
+#if EN_NRF24L01 > 0    
+    PP_DEF(PP_TYPE_CRITICAL, RF_PARA_,        sizeof(Rf_para_t),       PP_NBK,     &c_rf_para)
+#endif
+END_PP_DEF(PP_TYPE_CRITICAL)
+
+
+/***********************************************************
+ 参数2区：经常改动，不重要参数注册到该区 
+ ***********************************************************/
+BEGIN_PP_DEF(PP_TYPE_COMMON, 2, "ppcom")
+    PP_DEF(PP_TYPE_COMMON, GROUP_,          GROUP_NUM,                 PP_NBK,      NULL)
+    PP_DEF(PP_TYPE_COMMON, SYS_RUN_INFO_,   sizeof(Sys_run_info_t),    PP_NBK,      NULL)
+    PP_DEF(PP_TYPE_COMMON, TASK_,           sizeof(Task_t),            PP_NBK,      &c_task)
+    PP_DEF(PP_TYPE_COMMON, LAMP_EVENT_,     sizeof(Lamp_event_t)*LAMP_NUM_MAX*LAMP_EVENT_MAX,    PP_NBK,     NULL)
+
+END_PP_DEF(PP_TYPE_COMMON)
+
+/***********************************************************
+ 参数3区：延时(几分钟存储一次)存储的参数注册到该区(替代原有NVRAM) 
+***********************************************************/
+BEGIN_PP_DEF(PP_TYPE_DELAY, 600, "ppdly")
+    PP_DEF(PP_TYPE_DELAY, POWER_TOTAL_,    sizeof(Power_total_t),    PP_NBK,     NULL)
+  
+END_PP_DEF(PP_TYPE_DELAY)
+
+
+
